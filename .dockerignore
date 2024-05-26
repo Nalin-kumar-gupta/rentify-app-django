@@ -1,0 +1,64 @@
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Ignore virtual environment directories
+venv/
+virtualenv/
+env/
+menv/
+
+# Ignore local environment settings
+.env
+.env.*
+
+# Ignore Django static files and media uploads (usually these are managed separately)
+staticfiles/
+media/
+
+# Ignore database files
+*.sqlite3
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+
+# Ignore test and development tools
+tox.ini
+coverage.ini
+*.coveragerc
+.nox/
+
+# Ignore node_modules and npm debug logs
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore other build-related files
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+*.orig
+
+
+
+
+# Ignore IDE and editor settings
+.vscode/
+.idea/
+*.iml
+
+# Ignore other project-specific files
+/tmp/
+dist/
+build/

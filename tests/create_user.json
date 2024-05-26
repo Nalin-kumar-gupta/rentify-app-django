@@ -1,0 +1,11 @@
+{
+    "username": "testuser",
+    "email": "testuser@example.com",
+    "password": "testpassword",
+    "phone_number": "1234567890",
+    "permanent_address": "123 Main St, Anytown, USA",
+    "id_proof": "path/to/id_proof.jpg",
+    "profile_photo": "path/to/profile_photo.jpg",
+    "role": "tenant"
+  }
+  
