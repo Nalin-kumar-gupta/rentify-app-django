@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Property from '../components/Property';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
+import { API_URL } from '../environment/prodEnviron';
 
-const API_URL = 'http://0.0.0.0:8000/api/';
+// const API_URL = 'http://0.0.0.0:8000/api/';
 
 const Home = () => {
   const [properties, setProperties] = useState([]);
@@ -27,7 +28,9 @@ const Home = () => {
 
   return (
     <Container>
+      <br />
       <h1>Properties</h1>
+      <br />
       <Row>
         {properties.map(property => (
           <Col key={property.id} md={4} className="mb-4">

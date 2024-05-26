@@ -19,7 +19,7 @@ class Profile(models.Model):
         ('tenant', 'Tenant'),
     ]
 
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, help_text="Role of the user")
     phone_number = models.CharField(max_length=15, unique=True)

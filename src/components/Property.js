@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import authService from '../services/authService';
 import getRandomImageUrls from '../services/getRandomImageUrls';
+import { API_URL } from '../environment/prodEnviron';
 
-const API_URL = 'http://0.0.0.0:8000/api/';
+// const API_URL = 'http://0.0.0.0:8000/api/';
 
 const Property = ({ property }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +28,7 @@ const Property = ({ property }) => {
       };
 
       const response = await axios.post(API_URL + 'interest-map/', requestData);
-      if (response.status === (200 || 201)) {
+      if (response.status === 201) {
         // Interest map entry created successfully
         console.log('Interest map entry created');
       } else {

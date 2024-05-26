@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const API_URL = 'http://0.0.0.0:8000/api/';
+import { API_URL } from '../environment/prodEnviron';
+// const API_URL = 'http://0.0.0.0:8000/api/';
 
 const register = (username, email, password, phone_number, permanent_address, id_proof, profile_photo, role) => {
   const formData = new FormData();

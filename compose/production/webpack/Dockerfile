@@ -13,6 +13,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install --save-dev
+
 COPY . .
 
 COPY ./compose/production/webpack/start.sh /start-webpack.sh

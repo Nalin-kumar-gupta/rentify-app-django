@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Carousel, Container, Row, Col, Button } from 'react-bootstrap';
+import { Carousel, Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import authService from '../services/authService';
-import getRandomImageUrls from '../services/getRandomImageUrls'
+import getRandomImageUrls from '../services/getRandomImageUrls';
+import { API_URL } from '../environment/prodEnviron';
 
-const API_URL = 'http://0.0.0.0:8000/api/';
+// const API_URL = 'http://0.0.0.0:8000/api/';
 
 const PropertyDetails = () => {
   const { id } = useParams(); // Get property ID from URL parameters
@@ -52,19 +53,11 @@ const PropertyDetails = () => {
     setIsLoading(false);
   };
 
-//   const getRandomImageUrls = () => {
-//     const images = [];
-//     for (let i = 0; i < 5; i++) {
-//       images.push(`https://picsum.photos/800/400?random=${Math.random()}`);
-//     }
-//     return images;
-//   };
-
   return (
-    <Container>
+    <Container className="mt-5">
       {property ? (
         <>
-          <Carousel>
+          <Carousel className="mb-4">
             {getRandomImageUrls(3, 800, 400).map((url, index) => (
               <Carousel.Item key={index}>
                 <img
@@ -75,22 +68,40 @@ const PropertyDetails = () => {
               </Carousel.Item>
             ))}
           </Carousel>
-          <Row className="mt-4">
-            <Col md={8}>
-              <h2>{property.title}</h2>
-              <p>{property.description}</p>
-              <p><strong>Address:</strong> {property.address}, {property.city}, {property.state}, {property.zip_code}, {property.country}</p>
-              <p><strong>Rent Price:</strong> ${property.rent_price}</p>
-              <p><strong>Bedrooms:</strong> {property.bedrooms}</p>
-              <p><strong>Bathrooms:</strong> {property.bathrooms}</p>
-              <p><strong>Square Feet:</strong> {property.square_feet} sqft</p>
-              <p><strong>Furnished:</strong> {property.furnished ? 'Yes' : 'No'}</p>
-              <p><strong>Pet Friendly:</strong> {property.pet_friendly ? 'Yes' : 'No'}</p>
-              <p><strong>Available From:</strong> {property.available_from}</p>
-              <p><strong>Lease Term:</strong> {property.lease_term}</p>
-              <Button variant="success" onClick={handleInterestClick} disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'I am Interested'}
-              </Button>
+          <Row className="justify-content-md-center">
+            <Col md={10}>
+              <Card>
+                <Card.Body>
+                  <Card.Title as="h2" className="text-center mb-4">{property.title}</Card.Title>
+                  <Card.Text className="mb-4">{property.description}</Card.Text>
+                  <Row>
+                    <Col md={6}>
+                      <ul className="list-unstyled">
+                        <li><strong>Address:</strong> {property.address}, {property.city}, {property.state}, {property.zip_code}, {property.country}</li>
+                        <li><strong>Rent Price:</strong> ${property.rent_price}</li>
+                        <li><strong>Security Deposit:</strong> ${property.security_deposit}</li>
+                        <li><strong>Lease Term:</strong> {property.lease_term}</li>
+                        <li><strong>Available From:</strong> {property.available_from}</li>
+                      </ul>
+                    </Col>
+                    <Col md={6}>
+                      <ul className="list-unstyled">
+                        <li><strong>Property Type:</strong> {property.property_type}</li>
+                        <li><strong>Bedrooms:</strong> {property.bedrooms}</li>
+                        <li><strong>Bathrooms:</strong> {property.bathrooms}</li>
+                        <li><strong>Square Feet:</strong> {property.square_feet} sqft</li>
+                        <li><strong>Furnished:</strong> {property.furnished ? 'Yes' : 'No'}</li>
+                        <li><strong>Pet Friendly:</strong> {property.pet_friendly ? 'Yes' : 'No'}</li>
+                      </ul>
+                    </Col>
+                  </Row>
+                  <div className="text-center mt-4">
+                    <Button variant="success" onClick={handleInterestClick} disabled={isLoading}>
+                      {isLoading ? 'Loading...' : 'I am Interested'}
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </>
@@ -102,4 +113,3 @@ const PropertyDetails = () => {
 };
 
 export default PropertyDetails;
-

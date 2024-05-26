@@ -1,7 +1,8 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import { PROFILE_URL } from '../environment/prodEnviron';
 
 const CustomNavbar = () => {
   const navigate = useNavigate();
@@ -13,34 +14,42 @@ const CustomNavbar = () => {
   };
 
   const handleManageProfile = () => {
-    // Redirect to the Django admin URL
-    window.location.href = 'http://localhost/api/admin/';
+    window.location.href = PROFILE_URL;
   };
 
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={Link} to="/">MyApp</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          {currentUser ? (
-            <>
-              <Nav.Link as={Link} to="/">Home</Nav.Link>
-              <Button variant="outline-primary" onClick={handleManageProfile}>
-                Manage Profile
-              </Button>
-              <Button variant="outline-danger" onClick={handleLogout} className="ml-2">
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
-              <Nav.Link as={Link} to="/register">Register</Nav.Link>
-            </>
-          )}
-        </Nav>
-      </Navbar.Collapse>
+    <Navbar bg="light" expand="lg" className="shadow-sm">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Rentify</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            {currentUser ? (
+              <>
+                <Nav.Link as={Link} to="/">Home</Nav.Link>
+                <Button 
+                  variant="outline-primary" 
+                  onClick={handleManageProfile} 
+                  className="mx-2"
+                >
+                  Manage Profile
+                </Button>
+                <Button 
+                  variant="outline-danger" 
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 };

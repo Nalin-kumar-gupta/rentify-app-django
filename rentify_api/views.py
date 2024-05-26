@@ -14,27 +14,30 @@ from django.contrib.auth.models import User, Group
 from rest_framework import generics
 from .models import Profile
 from django.contrib.auth import login, authenticate
+from django.db import transaction
 
 
 
 class RegisterView(APIView):
     def post(self, request_data):
-        request_user_data = request_data.data
-        user = User.objects.create_user(
-            username=request_user_data['username'],
-            email=request_user_data['email'],
-            password=request_user_data['password'],
-            is_staff=True
-        )
-        profile = Profile.objects.create(
-            user=user,
-            phone_number=request_user_data['phone_number'],
-            permanent_address=request_user_data['permanent_address'],
-            id_proof=request_user_data.get('id_proof', None),
-            profile_photo=request_user_data.get('profile_photo', None),
-            role=request_user_data['role']
-        )
-        self._assign_user_group(profile)
+        with transaction.atomic():
+            request_user_data = request_data.data
+            user = User.objects.create_user(
+                username=request_user_data['username'],
+                email=request_user_data['email'],
+                password=request_user_data['password'],
+                is_staff=True
+            )
+            profile = Profile.objects.create(
+                user=user,
+                phone_number=request_user_data['phone_number'],
+                permanent_address=request_user_data['permanent_address'],
+                id_proof=request_user_data.get('id_proof', None),
+                profile_photo=request_user_data.get('profile_photo', None),
+                role=request_user_data['role']
+            )
+            self._assign_user_group(profile)
+
         return HttpResponse("CREATED")
     
     def _assign_user_group(self, profile):

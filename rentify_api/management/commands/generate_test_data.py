@@ -6,6 +6,7 @@ from faker import Faker
 import random
 from django.contrib.auth.models import User, Group
 from rentify_api.utils import assign_owner_permissions, assign_tenant_permissions
+from django.db import transaction
 
 
 class Command(BaseCommand):
@@ -16,34 +17,35 @@ class Command(BaseCommand):
 
         # Generate random users and profiles
         for _ in range(100):
-            try:
-                user = User.objects.create_user(
-                    username=fake.user_name(),
-                    email=fake.email(),
-                    password='password123',
-                    is_staff=True
-                )
-                role = random.choice(['owner', 'tenant'])
+            with transaction.atomic():
+                try:
+                    user = User.objects.create_user(
+                        username=fake.user_name(),
+                        email=fake.email(),
+                        password='password123',
+                        is_staff=True
+                    )
+                    role = random.choice(['owner', 'tenant'])
 
-                # Create a temporary file for id_proof and profile_photo
-                # id_proof_file = ContentFile(fake.text(), name=f'{user.username}_id_proof.pdf')
-                # profile_photo_file = ContentFile(fake.image(), name=f'{user.username}_profile_photo.jpg')
+                    # Create a temporary file for id_proof and profile_photo
+                    # id_proof_file = ContentFile(fake.text(), name=f'{user.username}_id_proof.pdf')
+                    # profile_photo_file = ContentFile(fake.image(), name=f'{user.username}_profile_photo.jpg')
 
-                profile = Profile.objects.create(
-                    user=user,
-                    role=role,
-                    phone_number=fake.phone_number(),
-                    permanent_address=fake.address()
-                    # id_proof=id_proof_file,
-                    # profile_photo=profile_photo_file
-                )
-                self._assign_user_group(profile)
-                if role == 'owner':
-                    self.create_fake_properties(profile)
+                    profile = Profile.objects.create(
+                        user=user,
+                        role=role,
+                        phone_number=fake.phone_number(),
+                        permanent_address=fake.address()
+                        # id_proof=id_proof_file,
+                        # profile_photo=profile_photo_file
+                    )
+                    self._assign_user_group(profile)
+                    if role == 'owner':
+                        self.create_fake_properties(profile)
 
 
-            except:
-                pass
+                except:
+                    pass
 
         self.stdout.write(self.style.SUCCESS('Successfully generated fake data'))
 
